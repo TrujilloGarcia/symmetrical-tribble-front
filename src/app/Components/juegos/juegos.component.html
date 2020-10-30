@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="alert alert-danger" *ngIf="!juegos">Error al consultar los juegos</div>
+<div class="alert alert-info" *ngIf="juegos?.length == 0"> <!--Con esto evitamos que salte error. -->
+No hay juegos
+</div>
+
+<div class="my-5 pr-4 text-right">
+  <button class="btn btn-primary" type="button" routerLink="/juegos/form">Crear Juego</button>
+</div>
+
+<div class="card border-info mb-3" *ngIf="juegos">
+    <div class="card-header">Header
+      <button type="button" class="btn float-right btn-primary" (click)="switchId()">{{showId ? 'Ocultar' : 'Mostrar'}}</button>
+    </div>
+    <div class="card-body text-info">
+        <table class="table table-bordered table-striped">
+            <thead>
+              <th *ngIf="showId">ID</th>
+              <th>Título</th>
+              <th>Fecha Lanzamiento</th>
+              <th>Precio</th>
+              <th>PEGI</th>
+              <th>Categoría</th>
+              <th>Compañias</th>
+              <th>Acciones</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let game of juegos">
+                <td *ngIf="showId">{{ game.idJuego }}</td>
+                <td>{{ game.titulo }}</td>
+                <td>{{ game.fechaLanzamiento }}</td>
+                <td>{{ game.precio }}</td>
+                <td>{{ game.pegi }}</td>
+                <td>{{ game.categoria }}</td>
+                <td><span *ngFor="let company of game.companies">{{company.nombre}}</span></td>
+                <td>
+                  <button type="button" [routerLink]="['form', game.idJuego]" class="btn btn-primary btn-sm">Editar</button>
+                  <button type="button" (click)='delete(game)' class="btn btn-danger btn-sm ml-2">Borrar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
